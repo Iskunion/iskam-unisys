@@ -91,7 +91,7 @@ AM_SRCS := trm.c \
            ioe/gpu.c \
            ioe/audio.c \
            ioe/disk.c \
-           ioe/media.c \
+					 ioe/uart.c \
            mpe.c
 
 AM_SRCS += start.S \

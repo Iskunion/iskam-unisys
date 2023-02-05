@@ -1,42 +1,58 @@
 #ifndef __AMDEV_H__
 #define __AMDEV_H__
 
-// **MAY SUBJECT TO CHANGE IN THE FUTURE**
+//Based on ProjectN AM, added some extra interface bring by unisys
+//We try to stay compatible with original AM
 #include <stdbool.h>
+#include <stdint.h>
 
 #define AM_DEVREG(id, reg, perm, ...) \
   enum { AM_##reg = (id) }; \
   typedef struct { __VA_ARGS__; } AM_##reg##_T;
 
-AM_DEVREG( 1, UART_BAUD,    WR, short baud_clock_nr);
-AM_DEVREG( 2, UART_TX,      WR, unsigned char data);
-AM_DEVREG( 3, UART_RX,      RD, unsigned char data);
-AM_DEVREG( 4, UART_STATUS,  WR, bool tx_busy : 1; bool rx_ready : 1);
-AM_DEVREG( 5, UART_CTRL,    WR, bool tx_enable : 1; bool rx_enable : 1);
+//standard AM UART
+AM_DEVREG( 1, UART_CONFIG,    RD, bool present);
+AM_DEVREG( 2, UART_TX,        WR, unsigned char data);
+AM_DEVREG( 3, UART_RX,        RD, unsigned char data);
+//unisys UART
+AM_DEVREG( 4, UART_STATUS,    WR, bool tx_busy : 1; bool rx_ready : 1);
+AM_DEVREG( 5, UART_CTRL,      WR, bool tx_enable : 1; bool rx_enable : 1);
+AM_DEVREG( 6, UART_BAUD,      WR, short baud_clock_nr);
 
-// AM_DEVREG( 4, TIMER_CONFIG, RD, bool present, has_rtc);
-// AM_DEVREG( 5, TIMER_RTC,    RD, int year, month, day, hour, minute, second);
-// AM_DEVREG( 6, TIMER_UPTIME, RD, uint64_t us);
+//standard AM TIMER
+AM_DEVREG( 7, TIMER_CONFIG,   RD, bool present, has_rtc);
+AM_DEVREG( 8, TIMER_RTC,      WR, int year, month, day, hour, minute, second);
+AM_DEVREG( 9, TIMER_UPTIME,   RD, uint32_t us);
+//unisys TIMER
+AM_DEVREG(10, TIMER_INTR,     WR, uint32_t us);
 
-// AM_DEVREG( 7, INPUT_CONFIG, RD, bool present);
-// AM_DEVREG( 8, INPUT_KEYBRD, RD, bool keydown; int keycode);
-// AM_DEVREG( 9, GPU_CONFIG,   RD, bool present, has_accel; int width, height, vmemsz);
-// AM_DEVREG(10, GPU_STATUS,   RD, bool ready);
-// AM_DEVREG(11, GPU_FBDRAW,   WR, int x, y; void *pixels; int w, h; bool sync);
-// AM_DEVREG(12, GPU_MEMCPY,   WR, uint32_t dest; void *src; int size);
-// AM_DEVREG(13, GPU_RENDER,   WR, uint32_t root);
-// AM_DEVREG(14, AUDIO_CONFIG, RD, bool present; int bufsize);
-// AM_DEVREG(15, AUDIO_CTRL,   WR, int freq, channels, samples);
-// AM_DEVREG(16, AUDIO_STATUS, RD, int count);
-// AM_DEVREG(17, AUDIO_PLAY,   WR, Area buf);
-// AM_DEVREG(18, DISK_CONFIG,  RD, bool present; int blksz, blkcnt);
-// AM_DEVREG(19, DISK_STATUS,  RD, bool ready);
-// AM_DEVREG(20, DISK_BLKIO,   WR, bool write; void *buf; int blkno, blkcnt);
-// AM_DEVREG(21, NET_CONFIG,   RD, bool present);
-// AM_DEVREG(22, NET_STATUS,   RD, int rx_len, tx_len);
-// AM_DEVREG(23, NET_TX,       WR, Area buf);
-// AM_DEVREG(24, NET_RX,       WR, Area buf);
-// AM_DEVREG(25, MEDIA_PRINT,  WR, unsigned char ch);
+//standard AM INPUT
+AM_DEVREG(11, INPUT_CONFIG, RD, bool present);
+AM_DEVREG(12, INPUT_KEYBRD, RD, bool keydown; int keycode);
+
+//standard AM GPU
+AM_DEVREG(13, GPU_CONFIG,   RD, bool present, has_accel; int width, height, vmemsz);
+AM_DEVREG(14, GPU_STATUS,   RD, bool ready);
+AM_DEVREG(15, GPU_FBDRAW,   WR, int x, y; void *pixels; int w, h; bool sync);
+AM_DEVREG(16, GPU_MEMCPY,   WR, uint32_t dest; void *src; int size);
+AM_DEVREG(17, GPU_RENDER,   WR, uint32_t root);
+
+//standard AM AUDIO
+AM_DEVREG(18, AUDIO_CONFIG, RD, bool present; int bufsize);
+AM_DEVREG(19, AUDIO_CTRL,   WR, int freq, channels, samples);
+AM_DEVREG(20, AUDIO_STATUS, RD, int count);
+AM_DEVREG(21, AUDIO_PLAY,   WR, Area buf);
+
+//standard AM DISK
+AM_DEVREG(22, DISK_CONFIG,  RD, bool present; int blksz, blkcnt);
+AM_DEVREG(23, DISK_STATUS,  RD, bool ready);
+AM_DEVREG(24, DISK_BLKIO,   WR, bool write; void *buf; int blkno, blkcnt);
+
+//standard AM NET
+AM_DEVREG(21, NET_CONFIG,   RD, bool present);
+AM_DEVREG(22, NET_STATUS,   RD, int rx_len, tx_len);
+AM_DEVREG(23, NET_TX,       WR, Area buf);
+AM_DEVREG(24, NET_RX,       WR, Area buf);
 
 // Input
 
