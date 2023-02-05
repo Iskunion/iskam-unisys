@@ -5,7 +5,7 @@ html:
 
 ## architecture is unisys by default
 
-ARCH ?= unisys
+ARCH ?= unisys-riscv32
 
 ## please specify this when you want to run this
 ISKAM ?= /home/litrehinn/Documents/Programs/iskam-unisys
