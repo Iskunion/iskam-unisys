@@ -41,13 +41,29 @@ static void __am_net_config (AM_NET_CONFIG_T *cfg) { cfg->present = false; }
 typedef void (*handler_t)(void *buf);
 
 static void *lut_r[128] = {
+  [AM_UART_CONFIG]  = __am_uart_config_r,
+  [AM_UART_TX]      = NULL,
+  [AM_UART_RX]      = __am_uart_get_data,
   [AM_UART_STATUS]  = __am_uart_status_r,
-  [AM_UART_RX]      = __am_uart_get_data
+  [AM_UART_CTAL]    = __am_uart_ctrl_r,
+  [AM_UART_BAUD]    = __am_uart_baud_r,
+  [AM_TIMER_UPTIME] = __am_timer_uptime_r,
+  [AM_TIMER_CONFIG] = __am_timer_config,
+  [AM_TIMER_RTC]    = __am_timer_rtc_r,
+  [AM_TIMER_INTR]   = __am_timer_intr_r
 };
 
 static void *lut_w[128] = {
+  [AM_UART_CONFIG]  = NULL,
+  [AM_UART_TX]      = __am_uart_send_data,
+  [AM_UART_RX]      = NULL,
   [AM_UART_STATUS] = __am_uart_status_w,
-  [AM_UART_RX]      = NULL
+  [AM_UART_CTAL]    = __am_uart_ctrl_w,
+  [AM_UART_BAUD]    = __am_uart_baud_w,
+  [AM_TIMER_UPTIME] = NULL,
+  [AM_TIMER_CONFIG] = NULL,
+  [AM_TIMER_RTC]    = __am_timer_rtc_w,
+  [AM_TIMER_INTR]   = __am_timer_intr_w
 };
 
 
