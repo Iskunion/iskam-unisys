@@ -10,7 +10,7 @@
 #define TX_ADDR     (UART_BASE + 0x0c)
 #define RX_ADDR     (UART_BASE + 0x10)
 
-void __am_uart_config_r(AM_UART_CONFIG_T *target) {
+void __am_uart_config(AM_UART_CONFIG_T *target) {
   target->present = true;
 }
 

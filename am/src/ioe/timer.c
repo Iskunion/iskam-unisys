@@ -17,7 +17,7 @@ void __am_timer_init() {
   time_base = get_time_from_device();
 }
 
-void __am_timer_uptime_r(AM_TIMER_UPTIME_T *uptime) {
+void __am_timer_uptime(AM_TIMER_UPTIME_T *uptime) {
   uptime->us = get_time_from_device() - time_base;
 }
 
