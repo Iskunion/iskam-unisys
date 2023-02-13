@@ -39,6 +39,8 @@ endif
 WORK_DIR  = $(shell pwd)
 DST_DIR   = $(WORK_DIR)/build/$(ARCH)
 $(shell mkdir -p $(DST_DIR))
+MEM_DIR 	= $(WORK_DIR)/build/memory
+$(shell mkdir -p $(MEM_DIR))
 
 ### Compilation targets (a binary image or archive)
 IMAGE_REL = build/$(NAME)-$(ARCH)
@@ -60,6 +62,7 @@ LINKAGE   = $(OBJS) \
 
 CROSS_COMPILE ?= riscv64-linux-gnu-
 
+PYTHON    = python3
 AS        = $(CROSS_COMPILE)gcc
 CC        = $(CROSS_COMPILE)gcc
 CXX       = $(CROSS_COMPILE)g++
@@ -119,6 +122,7 @@ CFLAGS += -I$(ISKAM)/am/src/include
 
 image: $(IMAGE).elf
 	@$(OBJDUMP) -d $(IMAGE).elf > $(IMAGE).txt
+	@$(PYTHON) $(ISKAM)/scripts/image.py $(IMAGE).bin $(MEM_DIR)/data
 	@echo + OBJCOPY "->" $(IMAGE_REL).bin
 	@$(OBJCOPY) -S --set-section-flags .bss=alloc,contents -O binary $(IMAGE).elf $(IMAGE).bin
 
