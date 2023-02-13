@@ -26,7 +26,7 @@ void __am_timer_intr_r(AM_TIMER_INTR_T *intr) {
 }
 
 void __am_timer_intr_w(AM_TIMER_INTR_T *intr) {
-  outl(intr->us, INTR_ADDR);
+  outl(INTR_ADDR, intr->us);
 }
 
 void __am_timer_rtc_r(AM_TIMER_RTC_T *rtc) {

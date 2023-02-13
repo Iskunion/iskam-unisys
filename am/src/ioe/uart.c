@@ -20,7 +20,7 @@ void __am_uart_status_r(AM_UART_STATUS_T *target) {
 }
 
 void __am_uart_status_w(AM_UART_STATUS_T *target) {
-  outl(*(uint32_t *) target, STATUS_ADDR);
+  outl(STATUS_ADDR, *(uint32_t *) target);
 }
 
 void __am_uart_get_data(AM_UART_RX_T *target) {
@@ -42,7 +42,7 @@ void __am_uart_ctrl_r(AM_UART_CTRL_T *target) {
 }
 
 void __am_uart_ctrl_w(AM_UART_CTRL_T *target) {
-  outl(*(uint32_t *) target, CTRL_ADDR);
+  outl(CTRL_ADDR, *(uint32_t *) target);
 }
 
 void __am_uart_send_data(AM_UART_TX_T *target) {
@@ -50,6 +50,9 @@ void __am_uart_send_data(AM_UART_TX_T *target) {
   while (uart_status.tx_busy)
     uart_status = io_read(AM_UART_STATUS);
   outb(TX_ADDR, target->data);
+
+  uart_status = io_read(AM_UART_STATUS);
+  while (uart_status.tx_busy) uart_status = io_read(AM_UART_STATUS);
 }
 
 void __am_uart_baud_r(AM_UART_BAUD_T *target) {

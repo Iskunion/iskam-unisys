@@ -16,7 +16,7 @@ ARCH ?= unisys-riscv32
 ISKAM ?= /home/litrehinn/Documents/Programs/iskam-unisys
 
 ### Override checks when `make clean/clean-all/html`
-ifeq ($(findstring $(MAKECMDGOALS),clean|clean-all|html),)
+ifeq ($(findstring $(MAKECMDGOALS),clean|clean-all|html|count),)
 
 ### Print build info message
 $(info # Building $(NAME)-$(MAKECMDGOALS) [$(ARCH)])

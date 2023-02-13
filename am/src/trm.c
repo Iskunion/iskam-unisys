@@ -17,13 +17,14 @@ void putch(char ch) {
 }
 
 void halt(int code) {
-  // nemu_trap(code);
-  printf("Exist with %d", code);
+  printf("Existing\n");
   // we end the program by a dead loop
+  nemu_trap(code);
   while (1);
 }
 
 void _trm_init() {
+  ioe_init();
   int ret = main(mainargs);
   halt(ret);
 }
