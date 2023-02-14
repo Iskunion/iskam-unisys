@@ -11,7 +11,7 @@ with open(filename, "rb") as f:
     data = f.read()
     f.close()
 
-filename = [(sys.argv[2] + str(i) + ".txt") for i in range(4)]
+filename = [(sys.argv[2] + "-" + str(i) + ".txt") for i in range(4)]
 
 data_size = 262144
 length = len(data) / 4
