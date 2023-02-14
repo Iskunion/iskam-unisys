@@ -122,12 +122,12 @@ CFLAGS += -I$(ISKAM)/am/src/include
 
 image: $(IMAGE).elf
 	@$(OBJDUMP) -d $(IMAGE).elf > $(IMAGE).txt
+	@echo + OBJCOPY "->" $(IMAGE_REL).bin
+	@$(OBJCOPY) -S --set-section-flags .bss=alloc,contents -O binary $(IMAGE).elf $(IMAGE).bin
 	@$(PYTHON) $(ISKAM)/scripts/image.py $(IMAGE).bin $(MEM_DIR)/data
 	@mkdir -p $(ISKAM)/build
 	@cp $(IMAGE).bin $(ISKAM)/build
-	@cp -r $(MEM_DIR)/data $(ISKAM)/build
-	@echo + OBJCOPY "->" $(IMAGE_REL).bin
-	@$(OBJCOPY) -S --set-section-flags .bss=alloc,contents -O binary $(IMAGE).elf $(IMAGE).bin
+	@cp -r $(MEM_DIR) $(ISKAM)/build
 
 ## Compilation Rules
 ## From NJU-ProjectN AM Makefile
