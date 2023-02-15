@@ -17,7 +17,7 @@ void putch(char ch) {
 }
 
 void halt(int code) {
-  printf("Existing\n");
+  printf("Exit with code %d\n", code);
   // we end the program by a dead loop
   nemu_trap(code);
   while (1);

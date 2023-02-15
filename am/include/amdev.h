@@ -33,9 +33,11 @@ AM_DEVREG(12, INPUT_KEYBRD, RD, bool keydown; int keycode);
 //standard AM GPU
 AM_DEVREG(13, GPU_CONFIG,   RD, bool present, has_accel; int width, height, vmemsz);
 AM_DEVREG(14, GPU_STATUS,   RD, bool ready);
-AM_DEVREG(15, GPU_FBDRAW,   WR, int x, y; void *pixels; int w, h; bool sync);
+AM_DEVREG(15, GPU_FBDRAW,   WR, uint32_t x, y; void *pixels; uint32_t w, h; bool sync);
 AM_DEVREG(16, GPU_MEMCPY,   WR, uint32_t dest; void *src; int size);
 AM_DEVREG(17, GPU_RENDER,   WR, uint32_t root);
+//unisys 256c GPU
+AM_DEVREG(25, GPU_DRAW256,  WR, uint32_t x, y; void *pixels; uint32_t w, h; bool sync);
 
 //standard AM AUDIO
 AM_DEVREG(18, AUDIO_CONFIG, RD, bool present; int bufsize);
@@ -49,10 +51,10 @@ AM_DEVREG(23, DISK_STATUS,  RD, bool ready);
 AM_DEVREG(24, DISK_BLKIO,   WR, bool write; void *buf; int blkno, blkcnt);
 
 //standard AM NET
-AM_DEVREG(21, NET_CONFIG,   RD, bool present);
-AM_DEVREG(22, NET_STATUS,   RD, int rx_len, tx_len);
-AM_DEVREG(23, NET_TX,       WR, Area buf);
-AM_DEVREG(24, NET_RX,       WR, Area buf);
+AM_DEVREG(25, NET_CONFIG,   RD, bool present);
+AM_DEVREG(26, NET_STATUS,   RD, int rx_len, tx_len);
+AM_DEVREG(27, NET_TX,       WR, Area buf);
+AM_DEVREG(28, NET_RX,       WR, Area buf);
 
 // Input
 

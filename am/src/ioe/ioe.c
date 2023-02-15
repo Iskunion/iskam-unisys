@@ -28,6 +28,7 @@ void __am_timer_intr_w(AM_TIMER_INTR_T *);
 void __am_gpu_config(AM_GPU_CONFIG_T *);
 void __am_gpu_status(AM_GPU_STATUS_T *);
 void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *);
+void __am_gpu_fbdraw256(AM_GPU_DRAW256_T *);
 
 void __am_audio_config(AM_AUDIO_CONFIG_T *);
 void __am_audio_ctrl(AM_AUDIO_CTRL_T *);
@@ -57,7 +58,15 @@ static void *lut_r[128] = {
   [AM_TIMER_UPTIME] = __am_timer_uptime,
   [AM_TIMER_CONFIG] = __am_timer_config,
   [AM_TIMER_RTC]    = __am_timer_rtc_r,
-  [AM_TIMER_INTR]   = __am_timer_intr_r
+  [AM_TIMER_INTR]   = __am_timer_intr_r,
+  [AM_INPUT_CONFIG] = __am_input_config,
+  [AM_INPUT_KEYBRD] = __am_input_keybrd,
+  [AM_GPU_CONFIG]   = __am_gpu_config,
+  [AM_GPU_FBDRAW]   = NULL,
+  [AM_GPU_RENDER]   = NULL,
+  [AM_GPU_STATUS]   = __am_gpu_status,
+  [AM_GPU_MEMCPY]   = NULL,
+  [AM_GPU_DRAW256]  = NULL
 };
 
 static void *lut_w[128] = {
@@ -70,9 +79,16 @@ static void *lut_w[128] = {
   [AM_TIMER_UPTIME] = NULL,
   [AM_TIMER_CONFIG] = NULL,
   [AM_TIMER_RTC]    = __am_timer_rtc_w,
-  [AM_TIMER_INTR]   = __am_timer_intr_w
+  [AM_TIMER_INTR]   = __am_timer_intr_w,
+  [AM_INPUT_CONFIG] = NULL,
+  [AM_INPUT_KEYBRD] = NULL,
+  [AM_GPU_CONFIG]   = NULL,
+  [AM_GPU_FBDRAW]   = __am_gpu_fbdraw,
+  [AM_GPU_RENDER]   = NULL,
+  [AM_GPU_STATUS]   = NULL,
+  [AM_GPU_MEMCPY]   = NULL,
+  [AM_GPU_DRAW256]  = __am_gpu_fbdraw256
 };
-
 
 
 static void fail(void *buf) { panic("access nonexist register"); }
@@ -82,10 +98,11 @@ bool ioe_init() {
     if (!lut_r[i]) lut_r[i] = fail;
   for (int i = 0; i < LENGTH(lut_w); i++)
     if (!lut_w[i]) lut_w[i] = fail;
-  __am_gpu_init();
+  
   __am_uart_init();
   __am_timer_init();
   __am_audio_init();
+  __am_gpu_init();
   return true;
 }
 

@@ -1,6 +1,9 @@
 #ifndef KLIB_MACROS_H__
 #define KLIB_MACROS_H__
 
+#include <klib.h>
+#include <am.h>
+
 #define ROUNDUP(a, sz)      ((((uintptr_t)a) + (sz) - 1) & ~((sz) - 1))
 #define CEIL(a, sz)         ((((uintptr_t)a) + (sz) - 1) / (sz))
 #define ROUNDDOWN(a, sz)    ((((uintptr_t)a)) & ~((sz) - 1))
@@ -39,5 +42,10 @@
     } })
 
 #define panic(s) panic_on(1, s)
+
+static inline void find_time(char end) {
+  AM_TIMER_RTC_T rtctime = io_read(AM_TIMER_RTC);
+  printf("[%02d:%02d:%02d]%c", rtctime.hour, rtctime.minute, rtctime.second, end);
+}
 
 #endif

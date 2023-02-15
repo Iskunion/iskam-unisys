@@ -1,5 +1,6 @@
 #include <am.h>
 #include <unisys.h>
+#include <klib-macros.h>
 
 #define RTC_ADDR    (TIMER_BASE + 0x00)
 #define UPTIME_ADDR (TIMER_BASE + 0x04)
@@ -15,6 +16,8 @@ void __am_timer_config(AM_TIMER_CONFIG_T *cfg) { cfg->present = true; cfg->has_r
 
 void __am_timer_init() {
   time_base = get_time_from_device();
+  printf("Init timer");
+  find_time('\n');
 }
 
 void __am_timer_uptime(AM_TIMER_UPTIME_T *uptime) {
