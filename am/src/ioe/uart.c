@@ -11,7 +11,7 @@
 #define RX_ADDR     (UART_BASE + 0x10)
 
 void __am_uart_config(AM_UART_CONFIG_T *target) {
-  target->present = true;
+  target->present = false;
 }
 
 void __am_uart_status_r(AM_UART_STATUS_T *target) {
