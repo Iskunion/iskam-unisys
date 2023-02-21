@@ -63,9 +63,9 @@ LINKAGE   = $(OBJS) \
 CROSS_COMPILE ?= riscv64-linux-gnu-
 
 PYTHON    = python3
-AS        = $(CROSS_COMPILE)gcc
-CC        = $(CROSS_COMPILE)gcc
-CXX       = $(CROSS_COMPILE)g++
+AS        = $(CROSS_COMPILE)gcc-11
+CC        = $(CROSS_COMPILE)gcc-11
+CXX       = $(CROSS_COMPILE)g++-11
 LD        = $(CROSS_COMPILE)ld
 OBJDUMP   = $(CROSS_COMPILE)objdump
 OBJCOPY   = $(CROSS_COMPILE)objcopy
@@ -86,7 +86,7 @@ CFLAGS   += -O2 -MMD -Wall $(INCFLAGS) \
 ## Arch-specified Rules
 
 ## riscv32
-COMMON_FLAGS  := -fno-pic -march=rv32iz -mabi=ilp32
+COMMON_FLAGS  := -fno-pic -march=rv32i -mabi=ilp32
 CFLAGS        += $(COMMON_FLAGS) -static
 ASFLAGS       += $(COMMON_FLAGS) -O0
 LDFLAGS       += -melf32lriscv
