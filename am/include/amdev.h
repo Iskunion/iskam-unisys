@@ -5,6 +5,7 @@
 //We try to stay compatible with original AM
 #include <stdbool.h>
 #include <stdint.h>
+#include <am.h>
 
 #define AM_DEVREG(id, reg, perm, ...) \
   enum { AM_##reg = (id) }; \
@@ -36,8 +37,12 @@ AM_DEVREG(14, GPU_STATUS,   RD, bool ready);
 AM_DEVREG(15, GPU_FBDRAW,   WR, uint32_t x, y; void *pixels; uint32_t w, h; bool sync);
 AM_DEVREG(16, GPU_MEMCPY,   WR, uint32_t dest; void *src; int size);
 AM_DEVREG(17, GPU_RENDER,   WR, uint32_t root);
-//unisys 256c GPU
-AM_DEVREG(25, GPU_DRAW256,  WR, uint32_t x, y; void *pixels; uint32_t w, h; bool sync);
+
+//unisys GPU
+AM_DEVREG(29, GPU_DRAW256,  WR, uint32_t x, y; void *pixels; uint32_t w, h; bool sync);
+AM_DEVREG(30, GPU_TERMINAL, WR, uint32_t i, j; char content; uint8_t fg_color, bg_color; bool sync, clear);
+AM_DEVREG(31, GPU_CHCONFIG, RD, bool present; int width, height);
+AM_DEVREG(32, GPU_CHSCROLL, WR, bool sync);
 
 //standard AM AUDIO
 AM_DEVREG(18, AUDIO_CONFIG, RD, bool present; int bufsize);

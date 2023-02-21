@@ -48,4 +48,21 @@ static inline void find_time(char end) {
   printf("[%02d:%02d:%02d]%c", rtctime.hour, rtctime.minute, rtctime.second, end);
 }
 
+static inline void clear_vga() {
+  io_write(AM_GPU_TERMINAL, 0, 0, '\0', 0, 0, true, true);
+}
+
+static inline void putc_vga(int i, int j, char code, int fg_color, int bg_color, bool force) {
+  assert(code != 0);
+  io_write(AM_GPU_TERMINAL, i, j, code, fg_color, bg_color, force, false);
+}
+
+static inline void flush_vga() {
+  io_write(AM_GPU_TERMINAL, 0, 0, '\0', 0, 0, true, false);
+}
+
+static inline void sync_vga() {
+  io_write(AM_GPU_DRAW256, 0, 0, NULL, 0, 0, true);
+}
+
 #endif

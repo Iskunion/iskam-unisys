@@ -64,6 +64,17 @@ int printf(const char *fmt, ...) {
   return val;
 }
 
+int fprint(void (*putc)(char), const char *fmt, ...) {
+  char out[4096];
+  int val;
+  va_list args;
+  va_start(args, fmt);
+  val = vsprintf(out, fmt, args);
+  va_end(args);
+  for (const char *p = out; *p; p++) putc(*p);
+  return val;
+}
+
 int vsprintf(char *out, const char *fmt, va_list ap) {
   char *_o, *s, c;
   int num;

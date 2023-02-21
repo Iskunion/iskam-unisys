@@ -1,7 +1,7 @@
 #include <am.h>
 #include <unisys.h>
 #include <klib-macros.h>
-#include <stdio.h>
+#include <klib.h>
 
 extern char _heap_start;
 int main(const char *args);

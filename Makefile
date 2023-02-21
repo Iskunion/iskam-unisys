@@ -100,6 +100,7 @@ AM_SRCS := trm.c \
            ioe/audio.c \
            ioe/disk.c \
 					 ioe/uart.c \
+					 ioe/ascii.S\
            mpe.c
 
 AM_SRCS += start.S \

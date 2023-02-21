@@ -29,6 +29,9 @@ void __am_gpu_config(AM_GPU_CONFIG_T *);
 void __am_gpu_status(AM_GPU_STATUS_T *);
 void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *);
 void __am_gpu_fbdraw256(AM_GPU_DRAW256_T *);
+void __am_gpu_terminal(AM_GPU_TERMINAL_T *);
+void __am_gpu_chconfig(AM_GPU_CHCONFIG_T *);
+void __am_gpu_chscroll(AM_GPU_CHSCROLL_T *);
 
 void __am_audio_config(AM_AUDIO_CONFIG_T *);
 void __am_audio_ctrl(AM_AUDIO_CTRL_T *);
@@ -66,7 +69,10 @@ static void *lut_r[128] = {
   [AM_GPU_RENDER]   = NULL,
   [AM_GPU_STATUS]   = __am_gpu_status,
   [AM_GPU_MEMCPY]   = NULL,
-  [AM_GPU_DRAW256]  = NULL
+  [AM_GPU_DRAW256]  = NULL,
+  [AM_GPU_TERMINAL] = NULL,
+  [AM_GPU_CHCONFIG] = __am_gpu_chconfig,
+  [AM_GPU_CHSCROLL] = NULL
 };
 
 static void *lut_w[128] = {
@@ -87,7 +93,10 @@ static void *lut_w[128] = {
   [AM_GPU_RENDER]   = NULL,
   [AM_GPU_STATUS]   = NULL,
   [AM_GPU_MEMCPY]   = NULL,
-  [AM_GPU_DRAW256]  = __am_gpu_fbdraw256
+  [AM_GPU_DRAW256]  = __am_gpu_fbdraw256,
+  [AM_GPU_TERMINAL] = __am_gpu_terminal,
+  [AM_GPU_CHCONFIG] = NULL,
+  [AM_GPU_CHSCROLL] = __am_gpu_chscroll
 };
 
 
