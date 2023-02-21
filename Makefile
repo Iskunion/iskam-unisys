@@ -86,7 +86,7 @@ CFLAGS   += -O2 -MMD -Wall $(INCFLAGS) \
 ## Arch-specified Rules
 
 ## riscv32
-COMMON_FLAGS  := -fno-pic -march=rv32i -mabi=ilp32
+COMMON_FLAGS  := -fno-pic -march=rv32iz -mabi=ilp32
 CFLAGS        += $(COMMON_FLAGS) -static
 ASFLAGS       += $(COMMON_FLAGS) -O0
 LDFLAGS       += -melf32lriscv
