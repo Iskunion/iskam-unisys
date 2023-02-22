@@ -63,7 +63,7 @@ void __am_gpu_init() {
   int h = SCREEN_HEIGHT;  // TODO: get the correct height
   printf("detected screen width: %d height: %d\n", w, h);
   uint8_t *fb = (uint8_t *) (uintptr_t)FB_ADDR;
-  for (i = 0; i < w * h; i ++) fb[i] = 125;
+  // for (i = 0; i < w * h; i ++) fb[i] = 3;
   outl(SYNC_ADDR, 1);
   terminal_cells = malloc(TERMINAL_HEIGHT * TERMINAL_WIDTH * sizeof(Terminal_cell));
   for (i = 0; i < TERMINAL_HEIGHT * TERMINAL_WIDTH; i++)
