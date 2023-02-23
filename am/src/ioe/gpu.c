@@ -70,8 +70,8 @@ void __am_gpu_init() {
     terminal_cells[i] = (Terminal_cell) {.bgcolor = 0, .fgcolor = 255, .dirty = 1, .content = ' '};
 }
 
-static void __am_write_ascii(Terminal_cell *target, int i, int j) {
-  uint8_t *buffer = malloc(CHAR_SIZE);
+static void __am_write_ascii(Terminal_cell *target, int _i, int _j) {
+  uint8_t buffer[CHAR_SIZE];
   uint8_t *nowimage = ascii_image + (((int) target->content - 0x20) << 4);
   for (int i = 0; i < ASCII_HEIGHT; i++) {
     uint8_t nowline = nowimage[i];
@@ -83,12 +83,34 @@ static void __am_write_ascii(Terminal_cell *target, int i, int j) {
     }
     buffer[i * ASCII_WIDTH + ASCII_WIDTH - 1] = target->bgcolor;
   }
-  io_write(AM_GPU_DRAW256, j * ASCII_WIDTH, i * ASCII_HEIGHT, buffer, ASCII_WIDTH, ASCII_HEIGHT, 0);
+  io_write(AM_GPU_DRAW256, _j * ASCII_WIDTH, _i * ASCII_HEIGHT, buffer, ASCII_WIDTH, ASCII_HEIGHT, 0);
   target->dirty = false;
 }
 
-void __am_gpu_chscroll(AM_GPU_CHSCROLL_T * cfg) {
-
+void __am_gpu_chscroll(AM_GPU_CHSCROLL_T *cfg) {
+  if (cfg->ismove) {
+    for (int i = 0; i < TERMINAL_HEIGHT; i++)
+      for (int j = 0; j < TERMINAL_WIDTH; j++) {
+        int now = j + i * TERMINAL_WIDTH;
+        terminal_cells[now] = 
+        (i != TERMINAL_HEIGHT - 1) ? 
+        terminal_cells[now + TERMINAL_WIDTH] 
+        : (Terminal_cell) {.bgcolor = 0, .fgcolor = 255, .dirty = 1, .content = ' '};;
+      }
+  }
+  else {
+    uint8_t *fb = (uint8_t *) (uintptr_t)FB_ADDR;
+    for (int i = 0; i < SCREEN_HEIGHT; i++)
+      for (int j = TERMINAL_WIDTH * ASCII_WIDTH; j < SCREEN_WIDTH; j++)
+        fb[i * SCREEN_WIDTH + j] = 0;
+  }
+  for (int i = 0; i < TERMINAL_HEIGHT; i++)
+    for (int j = 0; j < TERMINAL_WIDTH; j++) {
+      int now = j + i * TERMINAL_WIDTH;
+      terminal_cells[now].dirty = true;
+    }
+  
+  // printf("end scroll\n");
 }
 
 void __am_gpu_terminal(AM_GPU_TERMINAL_T *cfg) {
@@ -115,8 +137,12 @@ void __am_gpu_terminal(AM_GPU_TERMINAL_T *cfg) {
     for (int i = 0; i < TERMINAL_HEIGHT; i++)
       for (int j = 0; j < TERMINAL_WIDTH; j++) {
         int now = j + i * TERMINAL_WIDTH;
-        if (terminal_cells[now].dirty)
+        
+        if (terminal_cells[now].dirty){
+          // printf("writring %d\n", now);
           __am_write_ascii(terminal_cells + now, i, j);
+          // printf("endWring\n");
+        }
       }
     sync_vga();
   }

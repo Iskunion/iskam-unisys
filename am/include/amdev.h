@@ -42,7 +42,7 @@ AM_DEVREG(17, GPU_RENDER,   WR, uint32_t root);
 AM_DEVREG(29, GPU_DRAW256,  WR, uint32_t x, y; void *pixels; uint32_t w, h; bool sync);
 AM_DEVREG(30, GPU_TERMINAL, WR, uint32_t i, j; char content; uint8_t fg_color, bg_color; bool sync, clear);
 AM_DEVREG(31, GPU_CHCONFIG, RD, bool present; int width, height);
-AM_DEVREG(32, GPU_CHSCROLL, WR, bool sync);
+AM_DEVREG(32, GPU_CHSCROLL, WR, bool ismove);
 
 //standard AM AUDIO
 AM_DEVREG(18, AUDIO_CONFIG, RD, bool present; int bufsize);
